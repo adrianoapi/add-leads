@@ -12,12 +12,16 @@ function get_curl()
 
 $xml = get_curl();
 
+$input = array('nome', 'signo','email','telefone','curso','time');
+
 foreach ($xml as $value):
-    echo "{$value->item->id}, {$value->item->name}";
-    foreach($value->item[1]->opcoes->opco as $item):
-    echo "{$item->id} - $item->value ,";
-    endforeach;
-    echo "<br>";
+    if (in_array($value->item->name, $input)) {
+        echo "{$value->item->id}, {$value->item->name}";
+        foreach ($value->item[1]->opcoes->opco as $item):
+            echo "{$item->id} - $item->value ,";
+        endforeach;
+        echo "<br>";
+    }
 endforeach;
 
 //echo "<pre>";
