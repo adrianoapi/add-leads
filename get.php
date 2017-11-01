@@ -1,5 +1,13 @@
 <?php
 
+$filtro = array('nome', 'email', 'telefone', 'time', 'profissionalizantes');
+
+if (@$_POST) {
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+}
+
 /**
  * Faz a conexão com a Server e retorna um XML de campos
  * @return type
@@ -10,11 +18,21 @@ class Form
     private $br;
     private $xml;
 
+    /**
+     * Abre o form setando os parâmetros necessários
+     * @param type $name
+     * @param type $id
+     * @param type $method
+     * @param type $action
+     */
     public function formOpen($name = null, $id = null, $method = null, $action = null)
     {
         echo "<form name=\"{$name}\" id=\"{$id}\" method=\"{$method}\" action=\"{$action}\">";
     }
 
+    /**
+     * Fecha o form
+     */
     public function formClose()
     {
         echo "</form>";
@@ -82,12 +100,10 @@ $form = new Form;
 $form->connect();
 $form->setBr(true);
 
-$filtro = array('nome', 'signo', 'email', 'telefone', 'curso', 'time', 'profissionalizantes');
 
 ###############
 # FORMULÁRIO
 ###############
-
 # inicia o form
 $form->formOpen(NULL, "form_leads", "POST", NULL);
 
@@ -105,6 +121,8 @@ foreach ($form->getXml() as $value):
         echo "<br>";
     }
 endforeach;
+echo "<br>";
+echo "<input type=\"submit\" value=\"Cadastrar\" />";
 
 # fecha o form
 $form->formClose();
