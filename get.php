@@ -25,13 +25,13 @@ class Form
     {
         $require = $obrigatorio > 0 ? "required=\"true\"" : NULL;
         if ($formato == "input") {
-            return "<label for=\"$indice\">{$label}:{$this->br}<input type=\"$tipo\" name=\"$name\" id=\"$indice\"></label>";
+            return "<label for=\"$indice\">{$label}:</label>{$this->br}<input type=\"$tipo\" name=\"$name\" id=\"$indice\" $require>";
         } else {
-            $string = "<label for=\"$indice\">{$label}:{$this->br}<select name=\"$name\" id=\"$indice\">";
+            $string = "<label for=\"$indice\">{$label}:</label>{$this->br}<select name=\"$name\" id=\"$indice\" $require>";
             foreach ($opcoes as $key => $value):
                 $string .= "<option vlue=\"{$key}\">{$value}</option>";
             endforeach;
-            return $string .= "</select></label>";
+            return $string .= "</select>";
         }
     }
 
