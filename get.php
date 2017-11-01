@@ -10,7 +10,18 @@ class Form
     private $br;
     private $xml;
 
-    public function campo($formato, $tipo, $id, $name, $indice, $label, $obrigatorio, $opcoes)
+    /**
+     * Imprime o campo HTML
+     * @param type $formato
+     * @param type $tipo
+     * @param type $name
+     * @param type $indice
+     * @param type $label
+     * @param type $obrigatorio
+     * @param type $opcoes
+     * @return type
+     */
+    public function campo($formato, $tipo, $name, $indice, $label, $obrigatorio, $opcoes)
     {
         $require = $obrigatorio > 0 ? "required=\"true\"" : NULL;
         if ($formato == "input") {
@@ -24,15 +35,27 @@ class Form
         }
     }
 
+    /**
+     * Insere uma quebra de linha no label
+     * @param type $value
+     */
     public function setBr($value)
     {
         $this->br = $value > 0 ? '<br/>' : NULL;
     }
-    
-    public function getXml(){
+
+    /**
+     * Retorna o corpo do xml
+     * @return type
+     */
+    public function getXml()
+    {
         return $this->xml;
     }
 
+    /**
+     * conecta no webserver e alimenta o artributo xml
+     */
     public function connect()
     {
         $ch = curl_init();
@@ -40,7 +63,7 @@ class Form
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $result = curl_exec($ch);
         curl_close($ch);
-        $this->xml =  simplexml_load_string($result);
+        $this->xml = simplexml_load_string($result);
     }
 
 }
@@ -61,7 +84,7 @@ foreach ($form->getXml() as $value):
         foreach ($value->item[1]->opcoes->opco as $item):
             $opcoes[(int) $item->id] = $item->value;
         endforeach;
-        echo $form->campo($value->item->formato, $value->item->tipo, $value->item->id, $value->item->name, $value->item->indice, $value->item->label, $value->item->obrigatorio, $opcoes);
+        echo $form->campo($value->item->formato, $value->item->tipo, $value->item->name, $value->item->indice, $value->item->label, $value->item->obrigatorio, $opcoes);
         echo "<br>";
     }
 endforeach;
