@@ -4,23 +4,15 @@
  * Faz a conexão com a Server e retorna um XML de campos
  * @return type
  */
-function get_curl()
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://leads.evolutime.net.br/api/campo/campos?format=xml");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $result = curl_exec($ch);
-    curl_close($ch);
-    return simplexml_load_string($result);
-}
-
 class Form
 {
 
     private $br;
+    private $xml;
 
-    public function campo($formato, $tipo, $id, $name, $indice, $label, $opcoes)
+    public function campo($formato, $tipo, $id, $name, $indice, $label, $obrigatorio, $opcoes)
     {
+        $require = $obrigatorio > 0 ? "required=\"true\"" : NULL;
         if ($formato == "input") {
             return "<label for=\"$indice\">{$label}:{$this->br}<input type=\"$tipo\" name=\"$name\" id=\"$indice\"></label>";
         } else {
@@ -36,26 +28,40 @@ class Form
     {
         $this->br = $value > 0 ? '<br/>' : NULL;
     }
+    
+    public function getXml(){
+        return $this->xml;
+    }
+
+    public function connect()
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://leads.evolutime.net.br/api/campo/campos?format=xml");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        $this->xml =  simplexml_load_string($result);
+    }
 
 }
 
 $form = new Form;
+$form->connect();
 $form->setBr(true);
-$xml = get_curl();
 
-$input = array('nome', 'signo', 'email', 'telefone', 'curso', 'time', 'profissionalizantes');
+$filtro = array('nome', 'signo', 'email', 'telefone', 'curso', 'time', 'profissionalizantes');
 
 # formato {input/select}
 # tipo {email, number, password...}
-foreach ($xml as $value):
+foreach ($form->getXml() as $value):
     # verifica se pode ser impresso
-    if (in_array($value->item->name, $input)) {
+    if (in_array($value->item->name, $filtro)) {
         # gera as opções
         $opcoes = array();
         foreach ($value->item[1]->opcoes->opco as $item):
             $opcoes[(int) $item->id] = $item->value;
         endforeach;
-        echo $form->campo($value->item->formato, $value->item->tipo, $value->item->id, $value->item->name, $value->item->indice, $value->item->label, $opcoes);
+        echo $form->campo($value->item->formato, $value->item->tipo, $value->item->id, $value->item->name, $value->item->indice, $value->item->label, $value->item->obrigatorio, $opcoes);
         echo "<br>";
     }
 endforeach;
