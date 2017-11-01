@@ -10,6 +10,16 @@ class Form
     private $br;
     private $xml;
 
+    public function formOpen($name = null, $id = null, $method = null, $action = null)
+    {
+        echo "<form name=\"{$name}\" id=\"{$id}\" method=\"{$method}\" action=\"{$action}\">";
+    }
+
+    public function formClose()
+    {
+        echo "</form>";
+    }
+
     /**
      * Imprime o campo HTML
      * @param type $formato
@@ -74,6 +84,13 @@ $form->setBr(true);
 
 $filtro = array('nome', 'signo', 'email', 'telefone', 'curso', 'time', 'profissionalizantes');
 
+###############
+# FORMULÁRIO
+###############
+
+# inicia o form
+$form->formOpen(NULL, "form_leads", "POST", NULL);
+
 # formato {input/select}
 # tipo {email, number, password...}
 foreach ($form->getXml() as $value):
@@ -89,6 +106,5 @@ foreach ($form->getXml() as $value):
     }
 endforeach;
 
-//echo "<pre>";
-//print_r(get_curl());
-//echo "</pre>";
+# fecha o form
+$form->formClose();
