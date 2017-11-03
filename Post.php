@@ -11,7 +11,7 @@ class Post
         curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl_handle, CURLOPT_POST, 1);
         curl_setopt($curl_handle, CURLOPT_POSTFIELDS, array(
-            'token' => "XNSS-HSJW-3NGU-8XTJ",
+            'token' => "XNSS-HSJW-3NGU-8XTJd",
             'unidade' => 13,
             'operador' => 0,
             'campanha' => 3,

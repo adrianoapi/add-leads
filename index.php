@@ -7,11 +7,15 @@ require_once 'Post.php';
 
 if (@$_POST) {
     $post = new Post;
-    if ($post->connect($_POST['nome'], $_POST['email'])) {
+    $result = $post->connect($_POST['nome'], $_POST['email']);
+    if (is_numeric($result)) {
         echo "Cadastro realizado com sucesso!";
         return false;
     } else {
-        echo "erro: tente novamente...";
+        echo "<h1>erro: Ocorreu um erro ao registrar o cadastro.</h1><p>Tente novamente...</p>";
+        echo "<pre>";
+        print_r($result);
+        echo "</pre>";
     }
 }
 
