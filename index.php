@@ -3,11 +3,16 @@
 $filtro = array('nome', 'email', 'telefone', 'time', 'profissionalizantes');
 
 require_once 'Form.php';
+require_once 'Post.php';
 
 if (@$_POST) {
-    echo "<pre>";
-    print_r($_POST);
-    echo "</pre>";
+    $post = new Post;
+    if ($post->connect($_POST['nome'], $_POST['email'])) {
+        echo "Cadastro realizado com sucesso!";
+        return false;
+    } else {
+        echo "erro: tente novamente...";
+    }
 }
 
 
