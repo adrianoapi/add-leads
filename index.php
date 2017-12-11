@@ -1,7 +1,13 @@
 <?php
 
+/*
+ * Filtro do que deve ser exibido
+ */
 $filtro = array('nome', 'email', 'telefone', 'time', 'profissionalizantes');
 
+/*
+ * Include de classes
+ */
 require_once 'Form.php';
 require_once 'Post.php';
 
