@@ -37,7 +37,7 @@ foreach ($form->getXml() as $value):
         foreach ($value->item[1]->opcoes->opco as $item):
             $opcoes[(int) $item->id] = $item->value;
         endforeach;
-        echo $form->campo($value->item->formato, $value->item->tipo, $value->item->name, $value->item->indice, $value->item->label, $value->item->obrigatorio, $opcoes);
+        echo $form->campo($value->item->formato, $value->item->tipo, $value->item->name, $value->item->indice, $value->item->class, $value->item->label, $value->item->obrigatorio, $opcoes);
         echo "<br>";
     }
 endforeach;

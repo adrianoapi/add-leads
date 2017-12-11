@@ -41,13 +41,14 @@ class Form
      * @param type $opcoes
      * @return type
      */
-    public function campo($formato, $tipo, $name, $indice, $label, $obrigatorio, $opcoes)
+    public function campo($formato, $tipo, $name, $indice, $class, $label, $obrigatorio, $opcoes)
     {
         $require = $obrigatorio > 0 ? "required=\"true\"" : NULL;
+        $class = strlen($class) > 0 ? "class=\"{$class}\"" : NULL;
         if ($formato == "input") {
-            return "<label for=\"$indice\">{$label}:</label>{$this->br}<input type=\"$tipo\" name=\"$name\" id=\"$indice\" $require>";
+            return "<label for=\"$indice\">{$label}:</label>{$this->br}<input type=\"$tipo\" name=\"$name\" id=\"$indice\" {$class} $require>";
         } else {
-            $string = "<label for=\"$indice\">{$label}:</label>{$this->br}<select name=\"$name\" id=\"$indice\" $require>";
+            $string = "<label for=\"$indice\">{$label}:</label>{$this->br}<select name=\"$name\" id=\"$indice\" {$class} $require>";
             foreach ($opcoes as $key => $value):
                 $string .= "<option vlue=\"{$key}\">{$value}</option>";
             endforeach;
